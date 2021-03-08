@@ -8,14 +8,14 @@ elseif ispc
     sysname = strip(sysname);
     switch sysname
         case 'MH02217045DT' % i9 PC - remote NIH
-            fullpt = 'E:\Charlotte_Psychosis_Learning\codes\models_hbi';
+            fullpt = 'E:\Github\Charlotte_Psychosis_Learning\codes\models_hbi';
             outputdir = 'C:\Users\wangs29\OneDrive - National Institutes of Health\HBI_Charlotte\results';
-            datadir = 'E:\Charlotte_Psychosis_Learning\data';
+            datadir = 'E:\Github\Charlotte_Psychosis_Learning\data';
             rg = 1:3;
         case 'MH02217195LT'
-            fullpt = 'C:\wangxsiyu\Charlotte_Psychosis_Learning\codes\models_hbi';
+            fullpt = 'C:\wangxsiyu\Github\Charlotte_Psychosis_Learning\codes\models_hbi';
             outputdir = 'C:\Users\wangs29\OneDrive - National Institutes of Health\HBI_Charlotte\results';
-            datadir = 'C:\wangxsiyu\Charlotte_Psychosis_Learning\data';
+            datadir = 'C:\wangxsiyu\Github\Charlotte_Psychosis_Learning\data';
             rg = 4:5;
     end
 end
@@ -77,7 +77,7 @@ init0{mi} = struct('noise_k', ones(1,2), 'noise_lambda', ones(1,2), ...
 %% setup JAGS/params
 wj = W_JAGS();
 wj.setup_params;
-wj.setup_params(4, 2000, 1000);
+wj.setup_params(4, 3000, 2000);
 %% run models
 datalists = dir(fullfile(datadir,'bayes*'));
 for di = rg%1:length(datalists)
