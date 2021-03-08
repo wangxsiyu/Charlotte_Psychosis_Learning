@@ -8,9 +8,9 @@ elseif ispc
     sysname = strip(sysname);
     switch sysname
         case 'MH02217045DT' % i9 PC - remote NIH
-            fullpt = 'E:\Project_Charlotte\codes\models_hbi';
-            outputdir = 'E:\Project_Charlotte\results';
-            datadir = 'E:\Project_Charlotte\data';
+            fullpt = 'E:\Charlotte_Psychosis_Learning\codes\models_hbi';
+            outputdir = 'C:\Users\wangs29\OneDrive - National Institutes of Health\HBI_Charlotte\results';
+            datadir = 'E:\Charlotte_Psychosis_Learning\data';
             rg = 1:3;
         case 'MH02217195LT'
             fullpt = 'C:\wangxsiyu\Charlotte_Psychosis_Learning\codes\models_hbi';
