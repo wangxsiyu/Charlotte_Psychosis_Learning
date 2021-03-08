@@ -1,0 +1,28 @@
+model{
+			for (c in 1:nCondition){
+					noise_k[c] ~ dexp(0.01);
+					noise_lambda[c] ~ dexp(10);
+					noise[c] <- noise_k[c]/noise_lambda[c];
+					alpha_n[c] ~ dnorm(0,0.01);
+					alpha_p[c] ~ dexp(0.01);
+					bias_n[c] ~ dnorm(0,0.01);
+					bias_p[c] ~ dexp(0.01);
+					for (s in 1:nSubject) {
+							noise_sub[c,s] ~ dgamma(noise_k[c], noise_lambda[c]);
+							alpha_sub[c,s] ~ dnorm(alpha_n[c], 1/alpha_p[c]);
+							bias_sub[c,s] ~ dnorm(bias_n[c], 1/bias_p[c]);
+					}
+			}
+			for (s in 1:nSessions){
+					Q[s, 1, 1] <- 0.5;
+					Q[s, 2, 1] <- 0.5;
+				  for (t in 1:nTrial){
+							dQ[s, t] <- Q[s, 2, t] - Q[s, 1, t];
+							P[s, t]  <- 1/(1 + exp(-(dQ[s,t] + bias_sub[blocktype[s], subID[s]])/noise_sub[blocktype[s], subID[s]]));
+							choice[s, t] ~ dbern( P[s,t] );
+							RPE[s, t] <- equals(c[s, t], 1) * (r[s, t] - Q[s, 1, t]) + equals(c[s, t], 2) * (r[s, t] - Q[s, 2, t]);
+							Q[s, 1, t+1] <- Q[s, 1, t] + equals(c[s,t], 1) * alpha_sub[blocktype[s], subID[s]] * RPE[s,t];
+							Q[s, 2, t+1] <- Q[s, 2, t] + equals(c[s,t], 2) * alpha_sub[blocktype[s], subID[s]] * RPE[s,t];
+					}
+			}
+}
