@@ -9,28 +9,19 @@ dirs = dir(fullfile(redir,'bayes*'));
 nd = length(dirs);
 clear stat;
 for di = 1:nd
-     files = dir(fullfile(dirs(di).folder, dirs(di).name, '*stat.mat'));
+     files = dir(fullfile(dirs(di).folder, dirs(di, '*stat.mat'));
      for fi = 1:length(files)
          stat(di, fi) = importdata(fullfile(files(fi).folder, files(fi).name)).stats;
      end
 end
-%%
-for di = 1:5
-     for fi = 1:5
-         dic(di,fi) = stat(di,fi).dic;
-     end
-end
-%%
-
 %% model comparison
 plt = SW_plt('fig_dir','../figures', ...
     'fig_projectname', 'Charlotte', 'fig_suffix', 'HBI');
 %%
 figure
-plot(dic(:,:)');
-xlim([0.5 5.5]);
-set(gca, 'xtick', 1:5, 'xticklabel', {files.name}, 'XTickLabelRotation', 45);
-legend({dirs.name})
+plot([stat.dic]);
+xlim([0.5 9.5]);
+set(gca, 'xtick', 1:9, 'xticklabel', tool_de_(names), 'XTickLabelRotation', 45);
 ylabel('DIC');
 %%
 files2 = dir(fullfile(redir, '*samples.mat'));
