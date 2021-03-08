@@ -33,7 +33,17 @@ set(gca, 'xtick', 1:5, 'xticklabel', {files.name}, 'XTickLabelRotation', 45);
 legend({dirs.name})
 ylabel('DIC');
 %%
-files2 = dir(fullfile(redir, '*samples.mat'));
+for di = 1:nd
+         files = dir(fullfile(dirs(di).folder, dirs(di).name, '*samples*'));
+
+sp{di} = importdata(fullfile(files(2).folder, files(2).name));
+end
+%%
+figure
+for di = 1:nd
+    for ei = 1:length(nm)
+    end
+end
 %%
 fi = 4;
 
