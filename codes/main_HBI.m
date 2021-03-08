@@ -8,15 +8,15 @@ elseif ispc
     sysname = strip(sysname);
     switch sysname
         case 'MH02217045DT' % i9 PC - remote NIH
-            fullpt = 'E:\Project_Charlotte\codes';
+            fullpt = 'E:\Project_Charlotte\codes\models_hbi';
             outputdir = 'E:\Project_Charlotte\results';
             datadir = 'E:\Project_Charlotte\data';
-            rg = 7:11;
+            rg = 1:3;
         case 'MH02217195LT'
-            fullpt = 'C:\wangxsiyu\COL_Project_Charlotte\codes';
-            outputdir = 'C:\wangxsiyu\COL_Project_Charlotte\results';
-            datadir = 'C:\wangxsiyu\COL_Project_Charlotte\data';
-            rg = 1:6;
+            fullpt = 'C:\wangxsiyu\Charlotte_Psychosis_Learning\codes\models_hbi';
+            outputdir = 'C:\Users\wangs29\OneDrive - National Institutes of Health\HBI_Charlotte\results';
+            datadir = 'C:\wangxsiyu\Charlotte_Psychosis_Learning\data';
+            rg = 4:5;
     end
 end
 %% set up models
@@ -77,10 +77,10 @@ init0{mi} = struct('noise_k', ones(1,2), 'noise_lambda', ones(1,2), ...
 %% setup JAGS/params
 wj = W_JAGS();
 wj.setup_params;
-% wj.setup_params(4, 2000, 2000);
+wj.setup_params(4, 2000, 1000);
 %% run models
 datalists = dir(fullfile(datadir,'bayes*'));
-for di = 1:1%length(datalists)
+for di = rg%1:length(datalists)
     %% load data
     bayesdata = importdata(fullfile(datalists(di).folder, datalists(di).name));
     wj.setup_data_dir(bayesdata, fullfile(outputdir, datalists(di).name));
