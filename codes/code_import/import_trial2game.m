@@ -23,5 +23,7 @@ game.Rewarded = cellfun(@(x)contains(x, 'Yes'), game.Rewarded);
 
 % 0 - emotional, 1 - neutral
 game.cond_block = any(game.ChosenEmotion' == 0)';
+game.name_block(game.cond_block == 1) = "neutral";
+game.name_block(game.cond_block == 0) = "emotional";
 %% save game version
 writetable(game, '../../data/game_Charlotte.csv');
