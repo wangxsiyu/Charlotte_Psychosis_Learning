@@ -23,7 +23,7 @@ model{
 			Qinit[2,1]<- 0;
 			Qinit[2,2]<- 0;
 			for (s in 1:nSessions){
-					mr[s] = step(lastsession[s]) * mem[blocktype[s]]
+					mr[s] = step(lastsession[s]) * mem[blocktype[s]];
 					Q[s, 1, 1] <- mr[s] * Qinit[s, 1] ;
 					Q[s, 2, 1] <- mr[s] * Qinit[s, 2] ;
 				  for (t in 1:nTrial){
