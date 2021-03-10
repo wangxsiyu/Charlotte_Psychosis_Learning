@@ -200,9 +200,13 @@ for di = rg%1:length(datalists)
     wj.setup_data_dir(bayesdata, fullfile(outputdir, datalists(di).name));
     %% run
     for mmi = 1:mi
-        disp(sprintf('running dataset %d, model %d/%d: %s', di, mmi,mi,modelname{mmi}));
-        wj.setup(fullfile(fullpt, modelname{mmi}), params{mmi}, init0{mmi});
-        wj.run;
+        try
+            disp(sprintf('running dataset %d, model %d/%d: %s', di, mmi,mi,modelname{mmi}));
+            wj.setup(fullfile(fullpt, modelname{mmi}), params{mmi}, init0{mmi});
+            wj.run;
+        catch
+            disp('!!!!!!!!!!!!!!!!!!failed');
+        end
     end
 end
 %% model minimum
