@@ -63,13 +63,13 @@ for di = 1:nd
     sp{di} = importdata(fullfile(files{di}(id).folder, files{di}(id).name));
 end
 %%
-plt.figure(5, 2);
+plt.figure(6, 2);
 plt.param_figsetting.linewidth = 2;
-name = {'alphal_n', 'bias_n', 'b0', 'fr', 'noise'};
-xb = {[-10:0.01:10], [-10:0.01:10], [-10:0.01:10], [-10:0.01:10], [0:.2:100]};
-xlm = {[-1.5,1.5], [-0.2,0.5], [-1,1], [-0.1,1.1], [0,10]};
+name = {'alpha_n','alphal_n', 'bias_n', 'b0', 'fr', 'noise'};
+xb = {[-10:0.01:10],[-10:0.01:10],[-10:0.01:10], [-10:0.01:10], [-10:0.01:10], [0:.2:100]};
+xlm = {[-1.5,1.5],[-1.5,1.5], [-0.2,0.5], [-1,1], [-0.1,1.1], [0,10]};
 legs = {'h1','h2','l1','l2','hc'};
-for fi = 1:5
+for fi = 1:6
     for i = 1:2
         plt.ax(fi,i);
         plt.setfig_ax('xlim', xlm{fi}, 'ylabel', name{fi});
