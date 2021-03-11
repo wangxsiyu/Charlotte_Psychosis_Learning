@@ -72,12 +72,7 @@ legs = {'h1','h2','l1','l2','hc'};
 for fi = 1:5
     for i = 1:2
         plt.ax(fi,i);
-        plt.setfig_ax('xlim', xlm{fi}, 'ylabel', name{fi});
-        if (fi == 5) && i == 1
-            plt.setfig_ax('legend', legs,'legloc','SouthWestOutSide');
-        else
-            plt.setfig_ax('legend', '');
-        end
+        plt.setfig_ax('xlim', xlm{fi}, 'ylabel', name{fi}, 'legend', legs, 'legloc', );
         te = [];
         for di = 1:nd
             if strcmp(name{fi}, 'noise')
