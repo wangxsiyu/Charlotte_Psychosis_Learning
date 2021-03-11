@@ -18,6 +18,8 @@ function game = preprocess_Charlotte(game)
     game.c_X(idx_emotion,:) = game.c_happy(idx_emotion,:);
     game.c_X(~idx_emotion,:) = game.c_face(~idx_emotion,:);
     
+    game.c_repeat = [NaN(height(game),1), W.nan_equal(game.c_X(:, 1:end-1), game.c_X(:, 2:end))];
+    
     game.winrate_X(idx_emotion) = game.winrate_happy(idx_emotion);
     game.winrate_X(~idx_emotion) = game.winrate_face(~idx_emotion);
     

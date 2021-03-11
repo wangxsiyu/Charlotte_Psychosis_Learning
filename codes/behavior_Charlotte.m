@@ -2,10 +2,10 @@ function out = behavior_Charlotte(x)
     % trial number analysis
     bin = [0.5:10:30.5];
     nbin = length(bin)-1;
-    te = W_tools.analysis_bincurve(x, {'c_X', 'c_ac_X', ...
-        'Rewarded'}, [], bin);
-    out = W_tools.analysis_bincurve(x, {'c_X', 'c_ac_X', ...
-        'Rewarded'}, [], bin,'all');
+    te = W_tools.analysis_bincurve(x, {'c_X', 'c_repeat', 'c_ac_X', ...
+        'Rewarded', 'RT'}, [], bin);
+    out = W_tools.analysis_bincurve(x, {'c_X', 'c_repeat', 'c_ac_X', ...
+        'Rewarded', 'RT'}, [], bin,'all');
     win = x.win_X;
     for wi = 1:2
         out.p_ac_byX(wi) = nanmean(te.bin_byrow_c_ac_X(wi == win, nbin));

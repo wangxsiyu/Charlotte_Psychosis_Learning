@@ -33,6 +33,18 @@ for i = 1:2
 end
 plt.update;
 plt.save('preward');
+%% figure p(repeat)
+plt.figure(1,2);
+plt.setfig('ylim', [0.4 0.8], 'xlim', [0.5 3.5], ...
+    'color', cols, 'xlabel', 'bin #', 'ylabel', 'p(reward)', 'title', blocktype);
+for i = 1:2
+    plt.ax(1,i);
+    plt.setfig_ax('legend', gpname(btid{i}));
+    tgp = gp(btid{i},:);
+    plt.lineplot(tgp.av_bin_all_c_repeat, tgp.ste_bin_all_c_repeat);
+end
+plt.update;
+plt.save('preward');
 %% figure p(ac)
 plt.figure(1,2);
 plt.setfig('ylim', [0.4 0.75], 'xlim', [0.5 3.5], ...
@@ -46,6 +58,19 @@ for i = 1:2
 end
 plt.update;
 plt.save('pcorrect');
+%% figure RT
+plt.figure(1,2);
+plt.setfig( 'xlim', [0.5 3.5], ...
+    'color', cols, 'xlabel', 'bin #', 'ylabel', 'RT', 'title', blocktype, ...
+    'legloc', 'NorthWest');
+for i = 1:2
+    plt.ax(1,i);
+    plt.setfig_ax('legend', gpname(btid{i}));
+    tgp = gp(btid{i},:);
+    plt.lineplot(tgp.av_bin_all_RT, tgp.ste_bin_all_RT);
+end
+plt.update;
+plt.save('RT');
 %% figure p(happy vs angry)
 plt.figure(1,2);
 plt.setfig('ylim', [0.3 0.7], 'xlim', [0.5 3.5], ...
