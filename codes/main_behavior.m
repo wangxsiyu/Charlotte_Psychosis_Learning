@@ -36,7 +36,7 @@ plt.save('preward');
 %% figure p(repeat)
 plt.figure(1,2);
 plt.setfig('ylim', [0.4 0.8], 'xlim', [0.5 3.5], ...
-    'color', cols, 'xlabel', 'bin #', 'ylabel', 'p(reward)', 'title', blocktype);
+    'color', cols, 'xlabel', 'bin #', 'ylabel', 'p(repeat)', 'title', blocktype);
 for i = 1:2
     plt.ax(1,i);
     plt.setfig_ax('legend', gpname(btid{i}));
@@ -125,6 +125,28 @@ for i = 1:2
 end
 plt.update;
 plt.save('p_memory');
+%% split by which wins
+plt.figure(2,2,'gap',[0.2,0.1]);
+plt.setfig('ylim', [0.4 0.8], 'xlim', [0.5 3.5], ...
+    'color', cols, ...
+    'xlabel', '', 'title', {'happy win','angry win', ...
+    'faceA win','faceB win'}, ...
+    'ylabel', 'p(repeat)', ...
+    'legloc', {'SouthWest'});
+for i = 1:2
+    for j = 1:2
+        tgp = gp(btid{j},:);
+        plt.ax(j,i);
+        av = W.cellfun(@(x)x(i,:), tgp.av_bygp_bin_all_c_repeat);
+        av = vertcat(av{:});
+        se = W.cellfun(@(x)x(i,:), tgp.ste_bygp_bin_all_c_repeat)
+        se = vertcat(se{:});
+        plt.lineplot(av, se);
+    end
+end
+plt.update;
+plt.save('p_em');
+
 
 
 
