@@ -44,7 +44,7 @@ for i = 1:2
     plt.lineplot(tgp.av_bin_all_c_repeat, tgp.ste_bin_all_c_repeat);
 end
 plt.update;
-plt.save('preward');
+plt.save('prepeat');
 %% figure p(ac)
 plt.figure(1,2);
 plt.setfig('ylim', [0.4 0.75], 'xlim', [0.5 3.5], ...
