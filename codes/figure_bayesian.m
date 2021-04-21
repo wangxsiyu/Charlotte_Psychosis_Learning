@@ -1,6 +1,6 @@
 %% 
 if ismac
-   redir = '/Volumes/Lab/Lab_Averbeck/Projects_Averbeck/Project_Charlotte';
+   redir = '/Volumes/Wang/Projects/Charlotte_Psychosis_Learning/results';
 elseif ispc
     redir = 'C:\Users\wangs29\OneDrive - National Institutes of Health\HBI_Charlotte\results';
 end
@@ -37,6 +37,43 @@ end
 %% model comparison
 plt = W_plt('fig_dir','../figures', ...
     'fig_projectname', 'Charlotte', 'fig_suffix', 'HBI');
+%% comparison of a single dicmodel
+plt.figure(1,1);
+plt.new;
+plt.setfig('xtick', 1:5, 'ylabel', 'DIC', 'xticklabel', {dirs.name});
+plt.lineplot(dic(:, 1)');
+set(gca, 'XTickLabelRotation', 45);
+plt.update;
+%%
+plt.figure(7, 2);
+plt.param_figsetting.linewidth = 2;
+name = {'alpha1_n','alpha2_n','alphal1_n','alphal2_n', 'bias_n', 'fr', 'noise'};
+xb = {[-10:0.01:10],[-10:0.01:10],[-10:0.01:10],[-10:0.01:10], [-10:0.01:10], [-10:0.01:10], [0:.2:100]};
+xlm = {[-1.5,1.5],[-1.5,1.5],[-1.5,1.5],[-1.5,1.5], [-1,1], [-0.1,1.1], [0,100]};
+legs = {'h1','h2','l1','l2','hc'};
+for fi = 1:7
+    for i = 1:2
+        plt.ax(fi,i);
+        plt.setfig_ax('xlim', xlm{fi}, 'ylabel', name{fi});
+        if (fi == 5) && i == 1
+            plt.setfig_ax('legend', legs,'legloc','SouthWestOutSide');
+        else
+            plt.setfig_ax('legend', '');
+        end
+        te = [];
+        for di = 1:nd
+            if strcmp(name{fi}, 'noise')
+                tt = sp{di}.noise_k./sp{di}.noise_lambda;
+            else
+                tt = sp{di}.(name{fi});
+            end
+             te(di,:) = hist(reshape(tt(:,:, i), 1, []), xb{fi});
+        end
+        plt.lineplot(te,[], xb{fi});
+    end
+end
+plt.update;
+plt.save('temp')
 %%
 plt.figure(5,1, 'margin', [0.3 0.15 0.05 0.05]);
 plt.param_figsetting.fontsize_face = 15;
@@ -59,7 +96,7 @@ plt.save('dic');
 %%
 for di = 1:nd
     files{di} = dir(fullfile(dirs(di).folder, dirs(di).name, '*samples.mat'));
-    id =  find(strcmp({files{di}.name}, 'HBI_model_basic_initialB_2alpha_forget_samples.mat'));
+    id =  find(strcmp({files{di}.name}, 'HBI_model_basic_4alpha_forget_samples.mat'));
     sp{di} = importdata(fullfile(files{di}(id).folder, files{di}(id).name));
 end
 %%
