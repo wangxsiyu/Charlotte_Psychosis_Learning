@@ -11,12 +11,12 @@ elseif ispc
             fullpt = 'E:\Github\Charlotte_Psychosis_Learning\codes\models_hbi';
             outputdir = 'C:\Users\wangs29\OneDrive - National Institutes of Health\HBI_Charlotte\results';
             datadir = 'E:\Github\Charlotte_Psychosis_Learning\data';
-            rg = 1:3;
+%             rg = 1:3;
         case 'MH02217195LT'
             fullpt = 'C:\wangxsiyu\Github\Charlotte_Psychosis_Learning\codes\models_hbi';
             outputdir = 'C:\Users\wangs29\OneDrive - National Institutes of Health\HBI_Charlotte\results';
             datadir = 'C:\wangxsiyu\Github\Charlotte_Psychosis_Learning\data';
-            rg = 4:5;
+%             rg = 4:5;
     end
 end
 %% set up models
@@ -188,18 +188,37 @@ params{mi} = {'noise_k','noise_lambda','alpha_n', 'alpha_p', ...
 init0{mi} = struct('noise_k', ones(1,2), 'noise_lambda', ones(1,2), ...
     'alpha_n', zeros(1,2), 'alpha_p', ones(1,2), ...
     'bias_n', zeros(1,2), 'bias_p', ones(1,2), 'mem', zeros(1,2));
+% model fr + wl4
+mi = mi + 1;
+modelname{mi} = 'model_basic_4alpha_forget';
+params{mi} = {'noise_k','noise_lambda', ...
+    'alpha1_n', 'alpha1_p','alphal1_n', 'alphal1_p', ...
+    'alpha2_n', 'alpha2_p','alphal2_n', 'alphal2_p', ...
+    'bias_n', 'bias_p', 'noise_sub', 'bias_sub', ...
+    'alpha1_sub', 'alphal1_sub',...
+    'alpha2_sub', 'alphal2_sub',...
+    'RPE', 'Q','noise','fr'};
+init0{mi} = struct('noise_k', ones(1,2), 'noise_lambda', ones(1,2), ...
+    'alpha1_n', zeros(1,2), 'alpha1_p', ones(1,2), ...
+    'alphal1_n', zeros(1,2), 'alphal1_p', ones(1,2), ...
+    'alpha2_n', zeros(1,2), 'alpha2_p', ones(1,2), ...
+    'alphal2_n', zeros(1,2), 'alphal2_p', ones(1,2), ...
+    'bias_n', zeros(1,2), 'bias_p', ones(1,2), ...
+    'fr', zeros(1,2));
 %% setup JAGS/params
 wj = W_JAGS();
 wj.setup_params;
 wj.setup_params(4, 3000, 2000);
+%% run select
+wselect = mi;%1:mi
 %% run models
 datalists = dir(fullfile(datadir,'bayes*'));
-for di = rg%1:length(datalists)
+for di = 1:length(datalists)
     %% load data
     bayesdata = importdata(fullfile(datalists(di).folder, datalists(di).name));
     wj.setup_data_dir(bayesdata, fullfile(outputdir, datalists(di).name));
     %% run
-    for mmi = 1:mi
+    for mmi = wselect
         try
             disp(sprintf('running dataset %d, model %d/%d: %s', di, mmi,mi,modelname{mmi}));
             wj.setup(fullfile(fullpt, modelname{mmi}), params{mmi}, init0{mmi});
