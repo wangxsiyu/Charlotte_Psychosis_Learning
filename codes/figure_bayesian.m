@@ -45,11 +45,12 @@ plt.lineplot(dic(:, 1)');
 set(gca, 'XTickLabelRotation', 45);
 plt.update;
 %%
-plt.figure(7, 2);
+plt.figure(7, 2, 'rect', [0 0 0.5 0.9], 'gap',[0.05 0.08], ...
+    'margin', [0.12 0.15 0.03 0.05]);
 plt.param_figsetting.linewidth = 2;
 name = {'alpha1_n','alpha2_n','alphal1_n','alphal2_n', 'bias_n', 'fr', 'noise'};
 xb = {[-10:0.01:10],[-10:0.01:10],[-10:0.01:10],[-10:0.01:10], [-10:0.01:10], [-10:0.01:10], [0:.2:100]};
-xlm = {[-1.5,1.5],[-1.5,1.5],[-1.5,1.5],[-1.5,1.5], [-1,1], [-0.1,1.1], [0,100]};
+xlm = {[-1.5,1.5],[-1.5,1.5],[-1.5,1.5],[-1.5,1.5], [-0.3,0.3], [-0.1,1.1], [0,100]};
 legs = {'h1','h2','l1','l2','hc'};
 for fi = 1:7
     for i = 1:2
@@ -70,6 +71,42 @@ for fi = 1:7
              te(di,:) = hist(reshape(tt(:,:, i), 1, []), xb{fi});
         end
         plt.lineplot(te,[], xb{fi});
+    end
+end
+plt.update;
+plt.save('temp')
+%% learning rates
+
+plt.figure(7, 2, 'rect', [0 0 0.5 0.9], 'gap',[0.01 0.08], ...
+    'margin', [0.12 0.15 0.03 0.05]);
+plt.param_figsetting.linewidth = 2;
+name = {'alpha1_n','alpha2_n','alphal1_n','alphal2_n', 'bias_n', 'fr', 'noise'};
+ylm = {[0 15],[0 15],[-2 5],[-2 5],[-2 10], [0 1], [0 100]};
+xlm = [0.5,5.5];
+legs = {'h1','h2','l1','l2','hc'};
+for fi = 1:7
+    for i = 1:2
+        plt.ax(fi,i);
+        plt.setfig_ax('xlim', xlm, 'ylabel', name{fi}, ...
+            'ylim', ylm{fi});
+        if (fi == 7) 
+            plt.setfig_ax('xtick',1:5,'xticklabel', legs);
+        else
+            plt.setfig_ax('xticklabel', '');
+        end
+        te = [];
+        for di = 1:nd
+            if strcmp(name{fi}, 'noise')
+                tt = sp{di}.noise_k./sp{di}.noise_lambda;
+                tt = reshape(tt(:,:,i),[],1);
+                tt = mean(tt);
+            else
+                tt = stat{di}.mean.(name{fi});
+                tt = tt(i);
+            end
+            te(di,:) = tt;
+        end
+        plt.lineplot(te',[]);
     end
 end
 plt.update;

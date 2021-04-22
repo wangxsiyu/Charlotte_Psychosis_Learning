@@ -45,6 +45,18 @@ for i = 1:2
 end
 plt.update;
 plt.save('prepeat');
+%% repeat by image
+plt.figure(2,2);
+plt.setfig('ylim', [0.4 0.8], 'xlim', [0.5 3.5], ...
+    'color', cols, 'xlabel', 'bin #', 'ylabel', 'p(repeat)', 'title', blocktype);
+for i = 1:2
+    plt.ax(1,i);
+    plt.setfig_ax('legend', gpname(btid{i}));
+    tgp = gp(btid{i},:);
+    plt.lineplot(tgp.av_bin_all_c_repeat, tgp.ste_bin_all_c_repeat);
+end
+plt.update;
+plt.save('prepeat_bygp');
 %% figure p(ac)
 plt.figure(1,2);
 plt.setfig('ylim', [0.4 0.75], 'xlim', [0.5 3.5], ...
@@ -129,7 +141,7 @@ plt.save('p_memory');
 plt.figure(2,2,'gap',[0.2,0.1]);
 plt.setfig('ylim', [0.4 0.8], 'xlim', [0.5 3.5], ...
     'color', cols, ...
-    'xlabel', '', 'title', {'happy win','angry win', ...
+    'xlabel', '', 'title', {'angry win','happy win', ...
     'faceA win','faceB win'}, ...
     'ylabel', 'p(repeat)', ...
     'legloc', {'SouthWest'});
@@ -147,6 +159,49 @@ end
 plt.update;
 plt.save('p_em');
 
+%% split by which wins
+plt.figure(2,2,'gap',[0.2,0.1]);
+plt.setfig('ylim', [0.4 0.8], 'xlim', [0.5 3.5], ...
+    'color', cols, ...
+    'xlabel', '', 'title', {'angry win','happy win', ...
+    'faceA win','faceB win'}, ...
+    'ylabel', 'p(correct)', ...
+    'legloc', {'SouthWest'});
+for i = 1:2
+    for j = 1:2
+        tgp = gp(btid{j},:);
+        plt.ax(j,i);
+        av = W.cellfun(@(x)x(i,:), tgp.av_bygp_bin_all_c_ac_X);
+        av = vertcat(av{:});
+        se = W.cellfun(@(x)x(i,:), tgp.ste_bygp_bin_all_c_ac_X)
+        se = vertcat(se{:});
+        plt.lineplot(av, se);
+    end
+end
+plt.update;
+plt.save('p_ac');
+
+%% split by which wins
+plt.figure(2,2,'gap',[0.2,0.1]);
+plt.setfig('ylim', [0.2 0.8], 'xlim', [0.5 3.5], ...
+    'color', cols, ...
+    'xlabel', '', 'title', {'angry win','happy win', ...
+    'faceA win','faceB win'}, ...
+    'ylabel', 'p(choice)', ...
+    'legloc', {'SouthWest'});
+for i = 1:2
+    for j = 1:2
+        tgp = gp(btid{j},:);
+        plt.ax(j,i);
+        av = W.cellfun(@(x)x(i,:), tgp.av_bygp_bin_all_c_X);
+        av = vertcat(av{:});
+        se = W.cellfun(@(x)x(i,:), tgp.ste_bygp_bin_all_c_X)
+        se = vertcat(se{:});
+        plt.lineplot(av, se);
+    end
+end
+plt.update;
+plt.save('c');
 
 
 
